@@ -30,8 +30,6 @@
     {/each}
 </div>
 
-
-
 <!-- Summary Section -->
 <section>
     <header>
@@ -98,7 +96,6 @@
         <h2>Education</h2>
     </header>  
         
-    <section>
         <p><strong>M.S. Data Science, University of California, San Diego | GPA: 4.0</strong></p>
         <time datetime="2023-09">September 2023 - Present</time>
 
@@ -107,7 +104,6 @@
 
         <p><strong>M.S. Agricultural Economics, University of Western Australia | GPA: 3.96</strong></p>
         <time datetime="2019-02">February 2019 - December 2020</time>
-    </section>
 </section>
 
 <!-- Skills Section -->
@@ -122,8 +118,3 @@
         <li>Certifications: R Programming for Data Science by IBM, Data Science with Python by IBM</li>
     </ul>
 </section>
-
-<!-- Add additional CSS if needed -->
-<style>
-    /* Add any specific styling for the home page here */
-</style>
