@@ -1,0 +1,256 @@
+/* General body styling */
+body {
+  font: 100%/1.5 system-ui;
+  max-width: 100ch;
+  margin-inline: auto;
+  padding: 1em;
+  padding-left: 1.5em;
+  padding-right: 1.5em;
+  accent-color: var(--color-accent); /* Apply the accent color to the document */
+}
+
+/* Define the accent color for the website */
+:root {
+  --color-accent: #1E90FF; /* Customize your accent color */
+  --color-accent-fallback: #ff6347; /* Fallback for browsers that don't support oklch */
+}
+
+/* Global heading styles */
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.1; /* Tighter leading for headings */
+  text-wrap: balance; /* Prevent uneven wrapping of headings */
+}
+
+/* Specific heading sizes */
+h1 {
+  font-size: 2.5em; /* 400% of body text size */
+  margin-bottom: 0.5em;
+}
+
+h2 {
+  font-size: 2em; /* 200% of body text size for hierarchy */
+  margin-bottom: 0.3em;
+}
+
+h3 {
+  font-size: 1.5em;
+  margin-bottom: 0.2em;
+}
+
+section p strong {
+  font-size: 1.2em; /* Slightly larger font size for degree titles */
+  font-weight: bold;
+}
+
+section time {
+  font-size: 0.9em; /* Slightly smaller font size for dates */
+  color: #666; /* Optional: Make the date text a bit lighter */
+}
+
+/* Navigation bar styling */
+nav {
+  display: flex; /* Flexbox layout for the nav */
+  justify-content: space-between; /* Distribute items evenly */
+  gap: 1em; /* Add space between links */
+  margin-bottom: 2em;
+  padding-bottom: 0.5em;
+  border-bottom: 1px solid var(--color-accent-fallback); /* Subtle border */
+}
+
+nav ul {
+  display: contents; /* Remove default styling from ul */
+}
+
+nav li {
+  display: contents; /* Remove default styling from li */
+}
+
+nav a {
+  flex: 1; /* Make all links take up the same amount of space */
+  text-align: center; /* Center-align the text inside the links */
+  padding: 0.5em; /* Add padding for spacing */
+  text-decoration: none; /* Remove underline from links */
+  color: inherit; /* Inherit text color from parent */
+  font-weight: bold;
+}
+
+nav a:hover {
+  border-bottom: 0.4em solid var(--color-accent); /* Accent color on hover */
+  background-color: rgba(30, 144, 255, 0.1); /* Light background on hover */
+  border-radius: 5px; /* Rounded corners on hover */
+}
+
+nav a.current {
+  color: var(--color-accent); /* Highlight the current page link with accent color */
+  border-bottom: 0.4em solid var(--color-accent); /* Thick bottom border for current page */
+  padding-bottom: 0.1em; /* Adjust padding to account for the border */
+}
+
+/* Form layout using CSS Grid */
+form {
+  display: grid;
+  grid-template-columns: auto 1fr; /* Labels on the left, input fields on the right */
+  gap: 1em; /* Add space between form controls */
+  max-width: 600px; /* Limit form width */
+  margin: 0 auto; /* Center the form */
+}
+
+/* Make labels and inputs stack properly */
+label {
+  display: block;
+  margin-block: 0.5em;
+}
+
+input, textarea, button {
+  font: inherit; /* Inherit the same font as the rest of the page */
+  width: 100%; /* Full width for inputs and textarea */
+  padding: 0.5em;
+  box-sizing: border-box; /* Include padding and borders in width */
+}
+
+/* Align buttons to span across the form */
+button {
+  grid-column: 1 / -1; /* Make the button span across both columns */
+  padding: 1em;
+  background-color: var(--color-accent); /* Button background color */
+  color: black; /* Button text color */
+  border: none;
+  cursor: pointer;
+  border-radius: 5px; /* Slight rounding for buttons */
+}
+
+button:hover {
+  background-color: #1E90FF; /* Button hover background color */
+  color: white; /* Ensure button text stays visible on hover */
+}
+
+/* Projects page styling */
+.projects {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive grid with flexible columns */
+  gap: 1.5em; /* Space between project cards */
+  padding: 1.5em;
+}
+
+/* Article styling */
+.projects article {
+  display: grid;
+  grid-template-rows: auto auto auto; /* Keep articles structured with grid */
+  border: 1px solid #ddd;
+  padding: 1em;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+/* Adjust margin on h2 for better alignment */
+.projects h2 {
+  margin: 0;
+  font-size: 1.5em; /* Adjust font size */
+  margin-bottom: 0.5em;
+}
+
+/* Ensure consistent image size */
+.projects img {
+  width: 100px;
+  height: 100px;
+  margin: 0.5em 0;
+}
+
+/* Paragraph styling inside articles */
+.projects p {
+  font-size: 0.9em;
+  color: #666;
+}
+
+/* Allow the site to adapt to light and dark mode */
+html {
+  color-scheme: light dark;
+}
+
+/* Dark mode specific styles */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #121212; /* Dark background */
+    color: #E0E0E0; /* Light text */
+  }
+
+  nav {
+    border-bottom-color: rgba(255, 255, 255, 0.2); /* Lighter border for dark mode */
+  }
+
+  button {
+    background-color: #333; /* Darker button background */
+    color: #E0E0E0; /* Light text */
+  }
+
+  button:hover {
+    background-color: #444; /* Slightly lighter on hover */
+    color: white;
+  }
+
+  .projects article {
+    background-color: #222; /* Darker article background */
+    border-color: rgba(255, 255, 255, 0.1); /* Light border */
+  }
+
+  nav a {
+    color: #E0E0E0; /* Light text for navigation links */
+  }
+
+  nav a:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Hover background */
+    border-bottom-color: #1E90FF; /* Keep the hover accent color */
+  }
+
+  nav a.current {
+    border-bottom-color: #1E90FF; /* Accent color for current page */
+    color: #1E90FF;
+  }
+}
+
+/* Small screen adjustments */
+@media (max-width: 600px) {
+  body {
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+
+  .projects {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Smaller columns for mobile */
+  }
+
+  nav a {
+    padding: 0.3em; /* Less padding for smaller screens */
+  }
+
+  h1 {
+    font-size: 2em; /* Adjust heading size for small screens */
+  }
+
+  h2 {
+    font-size: 1.5em;
+  }
+}
+
+/* Dark mode switch styling */
+.color-scheme {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 80%;
+  font-family: inherit;
+}
+
+.color-scheme select {
+  background-color: #333;
+  color: #E0E0E0;
+  border: 1px solid #555;
+  padding: 0.5em;
+  border-radius: 5px;
+}
+
+.color-scheme select:hover {
+  background-color: #444;
+  border-color: #1E90FF;
+}
