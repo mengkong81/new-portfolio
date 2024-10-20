@@ -1,6 +1,8 @@
 <script>
-    // Add any necessary JavaScript logic here
+    import Project from '$lib/Project.svelte';
+    import projects from '$lib/projects.json';
 </script>
+
 
 <h1>Mengkong Aun</h1>
 
@@ -19,6 +21,16 @@
     <p><a href="https://www.linkedin.com/in/mengkongaun/" target="_blank">LinkedIn Profile</a> | 
        <a href="https://github.com/mengkong81" target="_blank">GitHub Projects</a></p>
 </section>
+
+<h2>Latest Projects</h2>
+
+<div class="projects">
+    {#each projects.slice(0, 3) as p}
+        <Project data={p} hLevel={3} />
+    {/each}
+</div>
+
+
 
 <!-- Summary Section -->
 <section>
