@@ -3,7 +3,7 @@
     import projects from '$lib/projects.json';
 </script>
 
-<h1>Projects ({projects.length})</h1>
+<h1>{projects.length} Projects</h1>
 <p>Here is a showcase of my projects.</p>
 
 <div class="projects">
