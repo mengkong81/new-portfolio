@@ -21,14 +21,18 @@
     <p><a href="https://www.linkedin.com/in/mengkongaun/" target="_blank">LinkedIn Profile</a> | 
        <a href="https://github.com/mengkong81" target="_blank">GitHub Projects</a></p>
 </section>
-
-<h2>Latest Projects</h2>
+<picture>
+    <source media="(min-width: )" srcset="">
+    <img src="" alt="">
+</picture><h2>Latest Projects</h2>
 
 <div class="projects">
     {#each projects.slice(0, 3) as p}
         <Project data={p} hLevel={3} />
     {/each}
 </div>
+
+
 
 <!-- Summary Section -->
 <section>
@@ -96,6 +100,7 @@
         <h2>Education</h2>
     </header>  
         
+    <section>
         <p><strong>M.S. Data Science, University of California, San Diego | GPA: 4.0</strong></p>
         <time datetime="2023-09">September 2023 - Present</time>
 
@@ -104,6 +109,7 @@
 
         <p><strong>M.S. Agricultural Economics, University of Western Australia | GPA: 3.96</strong></p>
         <time datetime="2019-02">February 2019 - December 2020</time>
+    </section>
 </section>
 
 <!-- Skills Section -->
@@ -118,3 +124,8 @@
         <li>Certifications: R Programming for Data Science by IBM, Data Science with Python by IBM</li>
     </ul>
 </section>
+
+<!-- Add additional CSS if needed -->
+<style>
+    /* Add any specific styling for the home page here */
+</style>
