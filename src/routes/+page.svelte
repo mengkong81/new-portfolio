@@ -1,5 +1,5 @@
 <script>
-    import Project from '$lib/Projects.svelte';
+    import Project from '$lib/Project.svelte';
     import projects from '$lib/projects.json';
 </script>
 
@@ -25,11 +25,14 @@
     <source media="(min-width: )" srcset="">
     <img src="" alt="">
 </picture><h2>Latest Projects</h2>
+
 <div class="projects">
     {#each projects.slice(0, 3) as p}
         <Project data={p} hLevel={3} />
     {/each}
 </div>
+
+
 
 <!-- Summary Section -->
 <section>
