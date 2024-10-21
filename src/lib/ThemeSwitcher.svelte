@@ -1,29 +1,37 @@
 <script>
-    let theme = localStorage.getItem('theme') || 'light';  // Get the theme from localStorage or set to light
-
-    // Function to toggle between dark and light mode
+    let theme = localStorage.getItem('theme') || 'light';
+  
     function toggleTheme() {
-        theme = theme === 'light' ? 'dark' : 'light';
-        document.documentElement.setAttribute('data-theme', theme);
-        localStorage.setItem('theme', theme);  // Store the theme preference
+      if (theme === 'light') {
+        theme = 'dark';
+        localStorage.setItem('theme', 'dark');
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        theme = 'light';
+        localStorage.setItem('theme', 'light');
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
     }
-
-    // On load, set the theme
-    document.documentElement.setAttribute('data-theme', theme);
-</script>
-
-<!-- Simple toggle switch -->
-<label class="theme-switch">
-    <input type="checkbox" checked={theme === 'dark'} on:change={toggleTheme}>
-    <span>Dark Mode</span>
-</label>
-
-<style>
-    /* Simple styling for the theme switcher */
-    .theme-switch {
-        position: absolute;
-        top: 10px;
-        right: 20px;
-        font-size: 1rem;
+  
+    if (typeof window !== 'undefined') {
+      document.documentElement.setAttribute('data-theme', theme);
     }
-</style>
+  </script>
+  
+  <label>
+    <input type="checkbox" on:change={toggleTheme} checked={theme === 'dark'}>
+    Dark Mode
+  </label>
+  
+  <style>
+    label {
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+    }
+  
+    input[type="checkbox"] {
+      margin-right: 0.5rem;
+    }
+  </style>
+  

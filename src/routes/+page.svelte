@@ -31,8 +31,6 @@
     {/each}
 </div>
 
-
-
 <!-- Summary Section -->
 <section>
     <header>

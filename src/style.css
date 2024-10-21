@@ -253,3 +253,15 @@ body {
 [data-theme="dark"] a {
   color: lightblue;
 }
+
+/* Default light theme styles */
+body {
+  background-color: white;
+  color: black;
+}
+
+/* Dark theme styles */
+[data-theme="dark"] body {
+  background-color: black;
+  color: white;
+}

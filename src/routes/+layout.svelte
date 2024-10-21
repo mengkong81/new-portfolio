@@ -1,6 +1,7 @@
 <script>
     import { page } from '$app/stores';  // Import the $page store
     import '../style.css';
+    import ThemeSwitcher from '$lib/ThemeSwitcher.svelte';
     let pages = [
        { url: './', title: 'Home' },
        { url: './projects', title: 'Projects' },

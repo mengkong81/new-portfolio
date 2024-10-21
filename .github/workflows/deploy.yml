@@ -8,14 +8,19 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+<<<<<<< HEAD
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+=======
+>>>>>>> parent of da8ff28 (Update deploy.yml)
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
+<<<<<<< HEAD
           node-version: '16'
 
       - name: Install dependencies
@@ -30,3 +35,15 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build
           
+=======
+          node-version: 16
+          cache: "npm"
+      - run: npm ci
+      - run: npm run build
+      - run: npx svelte-kit sync
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: build
+>>>>>>> parent of da8ff28 (Update deploy.yml)
