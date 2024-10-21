@@ -21,18 +21,13 @@
     <p><a href="https://www.linkedin.com/in/mengkongaun/" target="_blank">LinkedIn Profile</a> | 
        <a href="https://github.com/mengkong81" target="_blank">GitHub Projects</a></p>
 </section>
-<picture>
-    <source media="(min-width: )" srcset="">
-    <img src="" alt="">
-</picture><h2>Latest Projects</h2>
 
+<h2>Latest Projects</h2>
 <div class="projects">
     {#each projects.slice(0, 3) as p}
         <Project data={p} hLevel={3} />
     {/each}
 </div>
-
-
 
 <!-- Summary Section -->
 <section>
@@ -124,8 +119,16 @@
         <li>Certifications: R Programming for Data Science by IBM, Data Science with Python by IBM</li>
     </ul>
 </section>
-
-<!-- Add additional CSS if needed -->
+<!-- Optional additional CSS for this page -->
 <style>
     /* Add any specific styling for the home page here */
+    .projects {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    
+    .projects > * {
+        flex: 1 1 calc(33.333% - 20px);  /* Ensures 3 projects per row */
+    }
 </style>
