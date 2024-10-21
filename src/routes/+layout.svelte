@@ -1,7 +1,6 @@
 <script>
     import { page } from '$app/stores';  // Import the $page store
     import '../style.css';
-    onabort
     let pages = [
        { url: './', title: 'Home' },
        { url: './projects', title: 'Projects' },
