@@ -28,7 +28,6 @@
         <Project data={p} hLevel={3} />
     {/each}
 </div>
-
 <!-- Summary Section -->
 <section>
     <header>
