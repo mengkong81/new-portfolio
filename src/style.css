@@ -233,35 +233,24 @@ html {
   }
 }
 
-/* Default light theme */
-body {
-  background-color: white;
-  color: black;
+/* Dark mode switch styling */
+.color-scheme {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 80%;
+  font-family: inherit;
 }
 
-/* Dark theme */
-[data-theme="dark"] {
+.color-scheme select {
   background-color: #333;
-  color: white;
+  color: #E0E0E0;
+  border: 1px solid #555;
+  padding: 0.5em;
+  border-radius: 5px;
 }
 
-/* Additional theme-specific styles */
-[data-theme="dark"] nav {
+.color-scheme select:hover {
   background-color: #444;
-}
-
-[data-theme="dark"] a {
-  color: lightblue;
-}
-
-/* Default light theme styles */
-body {
-  background-color: white;
-  color: black;
-}
-
-/* Dark theme styles */
-[data-theme="dark"] body {
-  background-color: black;
-  color: white;
+  border-color: #1E90FF;
 }
