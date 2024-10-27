@@ -254,3 +254,37 @@ html {
   background-color: #444;
   border-color: #1E90FF;
 }
+
+dl {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Four equal-sized columns */
+  gap: 1rem; /* Spacing between items */
+  font-size: 1.1em;
+}
+
+dt {
+  grid-row: 1; /* Place all <dt> elements in the first row */
+  font-weight: bold;
+}
+
+dd {
+  grid-row: 2; /* Place all <dd> elements in the second row */
+  margin: 0;
+}
+
+:root {
+  --text-color-dark: white(125, 118, 118);
+  --text-color-light: black;
+}
+
+[data-theme="dark"] {
+  --text-color: var(--text-color-dark);
+}
+
+[data-theme="light"] {
+  --text-color: var(--text-color-light);
+}
+
+.github-stats {
+  color: var(--text-color);
+}

@@ -7,14 +7,14 @@
  
     // Reactive statement to update the color scheme dynamically
     $: root?.style.setProperty('color-scheme', colorScheme);
-    
+
     // Load color scheme from localStorage on page load
     let localStorage = globalThis.localStorage ?? {};
     colorScheme = localStorage.colorScheme ?? 'light dark';
  
     // Save color scheme to localStorage whenever it changes
     $: localStorage.colorScheme = colorScheme;
- 
+
     // Pages for navigation
     let pages = [
         { url: './', title: 'Home' },
@@ -75,6 +75,37 @@
         top: 1rem;
         right: 1rem;
         font-size: 80%;
+    }
+    h1 {
+        font-family: Arial, sans-serif;
+        font-size: 2em;
+    }
+
+    section {
+        margin-bottom: 2em;
+    }
+
+    .stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        text-align: center;
+        gap: 1em;
+        margin-top: 1em;
+        font-family: Arial, sans-serif;
+    }
+
+    dt {
+        font-size: 1.1em;
+        color: #6e7c99;
+        text-transform: uppercase;
+        font-weight: 400;
+    }
+
+    dd {
+        font-size: 2.5em;
+        margin: 0;
+        font-weight: bold;
+        color: #000;
     }
  </style>
  

@@ -1,6 +1,11 @@
 <script>
     import Project from '$lib/Project.svelte';
     import projects from '$lib/projects.json';
+
+    // Fetching GitHub profile data
+    let profileData = fetch('https://api.github.com/users/mengkong81')
+        .then(response => response.json())
+        .catch(error => console.error('Error fetching GitHub data:', error));
 </script>
 
 <h1>Mengkong Aun</h1>
@@ -29,17 +34,31 @@
     {/each}
 </div>
 
-<style>
-    .projects {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        gap: 1.5em;
-    }
+<!-- GitHub Profile Section -->
+<section>
+    <header>
+        <h2>GitHub Profile</h2>
+    </header>
+    {#await profileData}
+        <p>Loading GitHub data...</p>
+    {:then data}
+        <dl>
+            <dt>Followers:</dt>
+            <dd>{data.followers}</dd>
 
-    .highlights {
-        background-color: #f0f8ff;  /* Light background for featured projects */
-    }
-</style>
+            <dt>Following:</dt>
+            <dd>{data.following}</dd>
+
+            <dt>Public Repositories:</dt>
+            <dd>{data.public_repos}</dd>
+
+            <dt>Public Gists:</dt>
+            <dd>{data.public_gists}</dd>
+        </dl>
+    {:catch error}
+        <p class="error">Error loading GitHub data: {error.message}</p>
+    {/await}
+</section>
 
 <!-- Summary Section -->
 <section>
@@ -122,3 +141,41 @@
         <li>Certifications: R Programming for Data Science by IBM, Data Science with Python by IBM</li>
     </ul>
 </section>
+
+<style>
+    .projects {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1.5em;
+    }
+
+    .highlights {
+        background-color: #f0f8ff;  /* Light background for featured projects */
+    }
+
+    .github-stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr); /* Four equal columns */
+        text-align: center; /* Center the content */
+        gap: 1.5em;
+        padding: 1rem;
+    }
+
+    .github-stats div {
+        background-color: #2c2c2c; /* Dark background for each stat */
+        border-radius: 8px;
+        padding: 1rem;
+    }
+
+    dt {
+        font-size: 1rem;
+        color: #888; /* Shaded text for labels */
+    }
+
+    dd {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0;
+    color: var(--text-color); /* Use theme-aware color */
+    }
+</style>
