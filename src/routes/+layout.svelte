@@ -1,5 +1,6 @@
 <script>
 <<<<<<< HEAD
+<<<<<<< HEAD
     import { page } from '$app/stores';  // Import $page store
     import '../style.css';  // Import global CSS for hot-reloading
 
@@ -72,6 +73,37 @@
 
 <!-- HTML for Navigation and Dark Mode Switcher -->
 <nav>
+=======
+   import { page } from '$app/stores';  // Import the $page store
+   import '../style.css';  // Import global CSS
+   import ThemeSwitcher from '$lib/ThemeSwitcher.svelte';  // Import ThemeSwitcher component
+
+   let pages = [
+      { url: './', title: 'Home' },
+      { url: './projects', title: 'Projects' },
+      { url: './contact', title: 'Contact' },
+      { url: 'https://linkedin.com/in/mengkongaun', title: 'Profile' },
+      { url: 'https://github.com/mengkong81', title: 'GitHub' }
+   ];
+
+   // Dark mode switcher logic
+   function setColorScheme(scheme) {
+  document.documentElement.style.setProperty('color-scheme', scheme);  // Apply to the root element
+  localStorage.setItem("colorScheme", scheme);  // Save the user's choice in localStorage
+}
+
+   let colorScheme = localStorage.getItem("colorScheme") || "light dark";
+   setColorScheme(colorScheme);
+
+   function updateScheme(event) {
+       const scheme = event.target.value;
+       setColorScheme(scheme);
+   }
+</script>
+
+<!-- HTML for Navigation and Dark Mode Switcher -->
+<nav>
+>>>>>>> parent of 53a08ca (Working Lab 4)
    {#each pages as p}
       <a href={p.url} 
          class:current={'.' + $page.url.pathname === p.url} 
@@ -95,6 +127,9 @@
 <ThemeSwitcher />
 
 <!-- Page Content Slot -->
+<<<<<<< HEAD
+>>>>>>> parent of 53a08ca (Working Lab 4)
+=======
 >>>>>>> parent of 53a08ca (Working Lab 4)
 <slot />
 
@@ -157,5 +192,8 @@
       top: 1rem;
       right: 1rem;
    }
+<<<<<<< HEAD
+>>>>>>> parent of 53a08ca (Working Lab 4)
+=======
 >>>>>>> parent of 53a08ca (Working Lab 4)
 </style>
