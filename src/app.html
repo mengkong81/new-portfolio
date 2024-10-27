@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="%sveltekit.assets%/style.css" />
+	<script src="%sveltekit.assets%/global.js" type="module"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Your Website Title</title>
-    %sveltekit.head% <!-- Placeholder for head elements -->
+    <!-- Placeholder for dynamic head content inserted by SvelteKit -->
+    %sveltekit.head%
   </head>
-  <body>
-    %sveltekit.body% <!-- Placeholder for page content -->
+  <body data-sveltekit-preload-data="hover">
+    <!-- Placeholder for dynamic body content inserted by SvelteKit -->
+    %sveltekit.body%
   </body>
 </html>
