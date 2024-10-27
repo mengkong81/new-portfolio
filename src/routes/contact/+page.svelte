@@ -1,46 +1,38 @@
-<script>
-    // Any script or logic for the page
+<h1>Contact</h1>
 
-    // Add form handling logic here
-    const form = document.querySelector("#contact-form");
+    <!-- Contact Form -->
+    <form id="contact-form" action="mailto:mengkongaun@gmail.com" method="GET">
+        <label for="subject">Subject:</label>
+        <input type="text" id="subject" name="subject" required>
 
-    // Add event listener to intercept form submission
-    form?.addEventListener("submit", function(event) {
-        event.preventDefault(); // Prevent default form behavior
+        <label for="body">Message:</label>
+        <textarea id="body" name="body" rows="5" required></textarea>
 
-        // Create a FormData object
-        const formData = new FormData(form);
+        <button type="submit">Send Email</button>
+    </form>
 
-        // Build the mailto URL using the form's action attribute
-        let mailtoUrl = form.action + "?";
+    <script>
+        const form = document.querySelector("#contact-form");
 
-        // Iterate through form fields and encode values
-        for (let [name, value] of formData) {
-            mailtoUrl += `${encodeURIComponent(name)}=${encodeURIComponent(value)}&`;
-        }
+        // Add event listener to intercept form submission
+        form?.addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent default form behavior
 
-        // Remove the trailing '&'
-        mailtoUrl = mailtoUrl.slice(0, -1);
+            // Create a FormData object
+            const formData = new FormData(form);
 
-        // Open the email client with the prefilled data
-        location.href = mailtoUrl;
-    });
-</script>
+            // Build the mailto URL using the form's action attribute
+            let mailtoUrl = form.action + "?";
 
-<svelte:head>
-    <title>Contact Me - Mengkong Aun</title>
-</svelte:head>
+            // Iterate through form fields and encode values
+            for (let [name, value] of formData) {
+                mailtoUrl += `${encodeURIComponent(name)}=${encodeURIComponent(value)}&`;
+            }
 
-<h1>Contact Me</h1>
-<p>If you'd like to reach me, please fill out the form below.</p>  
+            // Remove the trailing '&'
+            mailtoUrl = mailtoUrl.slice(0, -1);
 
-<!-- Contact Form -->
-<form id="contact-form" action="mailto:mengkongaun@gmail.com" method="GET">
-    <label for="subject">Subject:</label>
-    <input type="text" id="subject" name="subject" required>
-
-    <label for="body">Message:</label>
-    <textarea id="body" name="body" rows="5" required></textarea>
-
-    <button type="submit">Send Email</button>
-</form>
+            // Open the email client with the prefilled data
+            location.href = mailtoUrl;
+        });
+    </script>
