@@ -7,7 +7,7 @@
  
     // Reactive statement to update the color scheme dynamically
     $: root?.style.setProperty('color-scheme', colorScheme);
-
+    
     // Load color scheme from localStorage on page load
     let localStorage = globalThis.localStorage ?? {};
     colorScheme = localStorage.colorScheme ?? 'light dark';
