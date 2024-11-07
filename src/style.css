@@ -148,6 +148,7 @@ button:hover {
   margin: 0;
   font-size: 1.5em; /* Adjust font size */
   margin-bottom: 0.5em;
+  color: #000;
 }
 
 /* Ensure consistent image size */
