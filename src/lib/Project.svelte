@@ -7,28 +7,16 @@
     <!-- Use svelte:element to dynamically set heading level -->
     <svelte:element this={"h" + hLevel}>{data.title}</svelte:element>
     <img src={data.image} alt="Project image">
-    <div>
-        <p>{data.description}</p>
-        <p class="year">{data.year}</p> <!-- Display the project year -->
-    </div>
+    <p>{data.description}</p>
 </article>
 
 <style>
+  /* You can add project-specific styles here */
   article {
       margin-bottom: 20px;
   }
-
   img {
       width: 100%;
       height: auto;
-  }
-
-  /* Styling for the year */
-  .year {
-      color: gray;
-      font-family: Baskerville, serif;
-      font-variant-numeric: oldstyle-nums;
-      font-size: 0.9em;
-      margin-top: 5px;
   }
 </style>
