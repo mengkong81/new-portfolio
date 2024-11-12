@@ -1,7 +1,7 @@
 <script>
     import { onMount } from 'svelte';
     import * as d3 from 'd3';
-    import Pie from '$lib/Pie.svelte'; // Import the Pie component
+    import Pie from '$lib/Pie.svelte';
 
     let data = [];
     let commits = [];
@@ -22,7 +22,7 @@
                 length: +row.length || 0,
                 date: new Date(row.date + 'T00:00' + row.timezone),
                 datetime: new Date(row.datetime),
-                language: row.language // Assuming `language` column exists in the CSV
+                type: row.type // Using `type` instead of `language`
             }));
             commits = d3.groups(data, d => d.commit).map(([commit, lines]) => ({
                 commit,
@@ -31,7 +31,7 @@
                 url: `https://github.com/your-repo/${commit}`,
                 author: lines[0].author,
                 linesEdited: lines.length,
-                lines: lines.map(line => ({ language: line.language }))
+                lines: lines.map(line => ({ type: line.type }))
             }));
 
             // Sort commits so smaller dots appear on top of larger ones
@@ -75,16 +75,19 @@
     $: selectedCommits = brushSelection ? commits.filter(isCommitSelected) : commits;
     $: hasSelection = brushSelection && selectedCommits.length > 0;
 
-    // Calculate selected lines and language breakdown
+    // Calculate selected lines and breakdown by `type`
     $: selectedLines = (hasSelection ? selectedCommits : commits).flatMap(d => d.lines || []);
-    $: languageBreakdown = d3.rollup(
+    $: typeBreakdown = d3.rollup(
         selectedLines,
         lines => lines.length,
-        line => line.language
+        line => line.type
     );
 
-    // Transform languageBreakdown to an array for the pie chart
-    $: pieData = Array.from(languageBreakdown, ([label, value]) => ({ label, value }));
+    // Prepare data for Pie chart
+    $: pieData = Array.from(typeBreakdown, ([type, lines]) => ({
+        label: type,
+        value: lines
+    }));
 
     $: {
         if (xScale && yScale) {
