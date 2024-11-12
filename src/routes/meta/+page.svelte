@@ -102,7 +102,6 @@
     }
 </script>
 
-<h1>Code Meta-Analysis</h1>
 <h2>Summary</h2>
 <dl class="stats">
   <div class="stat-item">
