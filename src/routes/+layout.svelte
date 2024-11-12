@@ -20,6 +20,7 @@
         { url: './', title: 'Home' },
         { url: './projects', title: 'Projects' },
         { url: './contact', title: 'Contact' },
+        { url: './meta', title: 'Meta' },
         { url: 'https://linkedin.com/in/mengkongaun', title: 'LinkedIn Profile' },
         { url: 'https://github.com/mengkong81', title: 'GitHub' }
     ];

@@ -3,29 +3,36 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main  # or the branch you're working with
+      - main  # Set this to your default branch
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout the repository
+      - name: Checkout repository
         uses: actions/checkout@v3
-
+        with:
+          fetch-depth: '0'  # Fetch full history for git history-based operations
+      
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20'  # Use Node.js 20
+          node-version: '16'
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm install
 
-      - name: Build the SvelteKit site
+      # Run elocuent to generate loc.csv before building
+      - name: Generate code stats
+        run: npx elocuent -d static,src -o static/loc.csv --spaces 2  # Adjust spaces as needed
+
+      - name: Build project
         run: npm run build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: build
+          publish_dir: ./build
