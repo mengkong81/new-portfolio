@@ -1,6 +1,7 @@
 <script>
     import { onMount } from 'svelte';
     import * as d3 from 'd3';
+    import Pie from '$lib/Pie.svelte'; // Import the Pie component
 
     let data = [];
     let commits = [];
@@ -9,6 +10,8 @@
     let hoveredIndex = -1;
     let cursor = { x: 0, y: 0 };
     $: hoveredCommit = commits[hoveredIndex] ?? {};
+    let brushSelection = null;
+    let svg;
 
     onMount(async () => {
         try {
@@ -18,7 +21,8 @@
                 depth: +row.depth || 0,
                 length: +row.length || 0,
                 date: new Date(row.date + 'T00:00' + row.timezone),
-                datetime: new Date(row.datetime)
+                datetime: new Date(row.datetime),
+                language: row.language // Assuming `language` column exists in the CSV
             }));
             commits = d3.groups(data, d => d.commit).map(([commit, lines]) => ({
                 commit,
@@ -26,7 +30,8 @@
                 hourFrac: lines[0].datetime.getHours() + lines[0].datetime.getMinutes() / 60,
                 url: `https://github.com/your-repo/${commit}`,
                 author: lines[0].author,
-                linesEdited: lines.length
+                linesEdited: lines.length,
+                lines: lines.map(line => ({ language: line.language }))
             }));
 
             // Sort commits so smaller dots appear on top of larger ones
@@ -46,10 +51,40 @@
             rScale = d3.scaleSqrt()
                 .domain(d3.extent(commits, d => d.linesEdited))
                 .range([minRadius, maxRadius]);
+
+            // Initialize brush
+            d3.select(svg).call(d3.brush().on('start brush end', brushed));
         } catch (error) {
             console.error("Error loading or processing CSV data:", error);
         }
     });
+
+    function brushed(event) {
+        brushSelection = event.selection;
+    }
+
+    function isCommitSelected(commit) {
+        if (!brushSelection) return false;
+        const [x0, y0] = brushSelection[0];
+        const [x1, y1] = brushSelection[1];
+        const x = xScale(commit.datetime);
+        const y = yScale(commit.hourFrac);
+        return x >= x0 && x <= x1 && y >= y0 && y <= y1;
+    }
+
+    $: selectedCommits = brushSelection ? commits.filter(isCommitSelected) : commits;
+    $: hasSelection = brushSelection && selectedCommits.length > 0;
+
+    // Calculate selected lines and language breakdown
+    $: selectedLines = (hasSelection ? selectedCommits : commits).flatMap(d => d.lines || []);
+    $: languageBreakdown = d3.rollup(
+        selectedLines,
+        lines => lines.length,
+        line => line.language
+    );
+
+    // Transform languageBreakdown to an array for the pie chart
+    $: pieData = Array.from(languageBreakdown, ([label, value]) => ({ label, value }));
 
     $: {
         if (xScale && yScale) {
@@ -94,19 +129,22 @@
 </dl>
 
 <h2>Commits by Time of Day</h2>
-<svg viewBox={`0 0 ${width} ${height}`}>
+<svg bind:this={svg} viewBox={`0 0 ${width} ${height}`}>
+    <!-- Brush overlay -->
+    <g class="brush" />
+
+    <!-- Gridlines and Axes -->
     <g class="gridlines" transform="translate({margin.left}, 0)" bind:this={yAxisGridlines} />
     <g transform="translate(0, {height - margin.bottom})" bind:this={xAxis} />
     <g transform="translate({margin.left}, 0)" bind:this={yAxis} />
 
-    <!-- Scatterplot circles with varying sizes -->
     <g class="dots">
         {#each commits as commit, index}
             <circle
                 cx={xScale(commit.datetime)}
                 cy={yScale(commit.hourFrac)}
                 r={rScale(commit.linesEdited)}
-                fill="steelblue"
+                fill={isCommitSelected(commit) ? "orange" : "steelblue"}
                 fill-opacity={hoveredIndex === index ? 1 : 0.6}
                 on:mouseenter={(evt) => { hoveredIndex = index; cursor = { x: evt.clientX, y: evt.clientY }; }}
                 on:mouseleave={() => hoveredIndex = -1}
@@ -116,20 +154,12 @@
     </g>
 </svg>
 
-{#if hoveredIndex > -1}
-<dl class="info tooltip" style="top: {cursor.y}px; left: {cursor.x}px">
-    <dt>Commit</dt>
-    <dd><a href="{hoveredCommit.url}" target="_blank">{hoveredCommit.commit}</a></dd>
-    <dt>Author</dt>
-    <dd>{hoveredCommit.author}</dd>
-    <dt>Date</dt>
-    <dd>{hoveredCommit.datetime?.toLocaleDateString("en", { dateStyle: "full" })}</dd>
-    <dt>Time</dt>
-    <dd>{hoveredCommit.datetime?.toLocaleTimeString("en", { timeStyle: "short" })}</dd>
-    <dt>Lines Edited</dt>
-    <dd>{hoveredCommit.linesEdited}</dd>
-</dl>
-{/if}
+<p>{hasSelection ? `${selectedCommits.length} commits selected` : "No commits selected"}</p>
+
+<!-- Display language breakdown as a pie chart below the scatterplot -->
+<div class="language-breakdown">
+    <Pie data={pieData} />
+</div>
 
 <style>
     .stats {
@@ -217,5 +247,19 @@
     }
     circle:hover {
         transform: scale(1.5);
+    }
+
+    /* Style for brush selection rectangle */
+    :global(.selection) {
+        fill-opacity: 0.2;
+        stroke: black;
+        stroke-opacity: 0.8;
+        stroke-dasharray: 4 2;
+    }
+
+    /* Style for language breakdown section */
+    .language-breakdown {
+        margin-top: 1rem;
+        text-align: center;
     }
 </style>
