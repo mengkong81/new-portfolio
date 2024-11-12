@@ -2,83 +2,96 @@
     import { onMount } from 'svelte';
     import * as d3 from 'd3';
 
-    let data = [];     // Stores lines of code data
-    let commits = [];  // Holds summarized commit data
+    let data = [];  // Stores lines of code data
+    let commits = [];
 
     // Load CSV data on component mount
     onMount(async () => {
-        // Fetch and parse the CSV file
-        data = await d3.csv('/loc.csv', (row) => ({
-            ...row,
-            line: +row.line,          // Convert line to a number
-            depth: +row.depth,        // Convert depth to a number
-            length: +row.length,      // Convert length to a number
-            date: new Date(row.date + 'T00:00' + row.timezone),
-            datetime: new Date(row.datetime)
-        }));
-        
-        // Group data by commit to compute summary info for each commit
-        commits = d3.groups(data, d => d.commit).map(([commit, lines]) => {
-            let first = lines[0];
-            let { author, date, time, timezone, datetime } = first;
-            return {
-                id: commit,
-                url: `https://github.com/your-repo/commit/${commit}`,
-                author,
-                date,
-                time,
-                timezone,
-                datetime,
-                hourFrac: datetime.getHours() + datetime.getMinutes() / 60,
-                totalLines: lines.length
-            };
-        });
+        try {
+            data = await d3.csv('/loc.csv', (row) => ({
+                ...row,
+                line: +row.line || 0,          // Convert line to a number
+                depth: +row.depth || 0,        // Convert depth to a number
+                length: +row.length || 0,      // Convert length to a number
+                date: new Date(row.date + 'T00:00' + row.timezone),
+                datetime: new Date(row.datetime)
+            }));
+            commits = d3.groups(data, d => d.commit);
+        } catch (error) {
+            console.error("Error loading or processing CSV data:", error);
+        }
     });
 
-    // Compute aggregate statistics
-    let maxFileLength = d3.max(data, d => d.length);  // Maximum line length
-    let averageLineLength = d3.mean(data, d => d.length); // Average line length
-    let maxDepth = d3.max(data, d => d.depth);  // Maximum depth
-    let uniqueFiles = d3.groups(data, d => d.file).length; // Number of unique files
+    // Computed statistics with checks
+    $: totalLOC = data.length || 0;
+    $: totalCommits = commits.length || 0;
+    $: maxFileLength = data.length > 0 ? d3.max(data, d => d.line) : 0;
+    $: avgLineLength = data.length > 0 ? d3.mean(data, d => d.length).toFixed(2) : 0;
+    $: numberOfFiles = data.length > 0 ? d3.group(data, d => d.file).size : 0;
+    $: maxDepth = data.length > 0 ? d3.max(data, d => d.depth) : 0;
 </script>
 
 <h1>Code Meta-Analysis</h1>
 
-<!-- Display summary statistics -->
+<h2>Summary</h2>
 <dl class="stats">
+  <div class="stat-item">
     <dt>Total <abbr title="Lines of code">LOC</abbr></dt>
-    <dd>{data.length}</dd>
-
-    <dt>Total Commits</dt>
-    <dd>{commits.length}</dd>
-
-    <dt>Maximum File Length (lines)</dt>
+    <dd>{totalLOC}</dd>
+  </div>
+  <div class="stat-item">
+    <dt>Commits</dt>
+    <dd>{totalCommits}</dd>
+  </div>
+  <div class="stat-item">
+    <dt>Max Lines</dt>
     <dd>{maxFileLength}</dd>
-
-    <dt>Average Line Length (characters)</dt>
-    <dd>{averageLineLength.toFixed(2)}</dd>
-
+  </div>
+  <div class="stat-item">
+    <dt>Avg Lines</dt>
+    <dd>{avgLineLength}</dd>
+  </div>
+  <div class="stat-item">
     <dt>Number of Files</dt>
-    <dd>{uniqueFiles}</dd>
-
+    <dd>{numberOfFiles}</dd>
+  </div>
+  <div class="stat-item">
     <dt>Maximum Depth</dt>
     <dd>{maxDepth}</dd>
+  </div>
 </dl>
-
 <style>
-    /* Styling for the stats section */
     .stats {
-        display: grid;
-        grid-template-columns: auto auto;
-        gap: 0.5em 1em;
+      display: flex; /* Use flexbox layout */
+      justify-content: space-around; /* Distribute space evenly */
+      gap: 1rem;
+      text-align: center;
+      margin-top: 2rem;
+      flex-wrap: wrap; /* Wrap items if screen is too small */
     }
-
-    .stats dt {
-        font-weight: bold;
+  
+    .stat-item {
+      min-width: 150px; /* Minimum width for each item */
+      flex: 1;
     }
-
-    .stats dd {
-        margin: 0;
-        text-align: right;
+  
+    .stat-item dt {
+      font-weight: bold;
+      font-size: 0.8em;
+      color: #666;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
     }
-</style>
+  
+    .stat-item dd {
+      font-size: 2em;
+      margin: 0;
+      color: #333;
+    }
+  
+    .stats abbr {
+      text-decoration: underline;
+      cursor: help;
+    }
+  </style>
+  
